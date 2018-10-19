@@ -111,11 +111,9 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 	BUFF EXAMPLE
 	DRAW BUFF NAMES OF TARGET
 	*/
-	
-	auto EnemyHeroes = EntityManager::GetEnemyHeroes();
-	for (size_t i = 0; i < EnemyHeroes.size(); i++)
+	/*
+	for (auto hero : EntityManager::GetEnemyHeroes())
 	{
-		auto hero = EnemyHeroes[i];
 		if (!hero.isAlive() || !hero.isVisible())
 			continue;
 
@@ -135,11 +133,10 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);	
 		}
 	}
-	
-	auto AllyHeroes = EntityManager::GetAllyHeroes();
-	for (size_t i = 0; i < AllyHeroes.size(); i++)
+	*/
+	/*
+	for (auto hero : EntityManager::GetAllyHeroes())
 	{
-		auto hero = AllyHeroes[i];
 		if (!hero.isAlive() || !hero.isVisible())
 			continue;
 
@@ -160,7 +157,7 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 
 		}
 	}
-
+	*/
 
 
 	//for (auto object : EntityManager::GetEnemyMinions())
