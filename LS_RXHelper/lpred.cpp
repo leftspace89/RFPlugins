@@ -20,6 +20,7 @@ SDKCOLOR _g_ColorPurple = { 128, 0, 128, 255 };
 }m_Options;
  
 
+
 BOOL 
 WINAPI 
 DllMain(
@@ -44,13 +45,6 @@ DllMain(
 
 
 	EntityManager::Initialize();
-
-	//
-	// The base 'game frame' sits below our extra visuals (the 'game
-	// scene'). The 'overlay scene' sits atop both of these, but is
-	// only visible when the end user presses the required hotkey.
-	//
-
 	//
 	// When the overlay is being drawn (e.g. hack menu is up), invoke
 	// our function.
@@ -63,6 +57,7 @@ DllMain(
 	// to render.
 	//
 	SdkRegisterGameScene(DrawGameScene, NULL);
+	SdkRegisterGameScene(AntiAFKTick, NULL);
 
 	AntiAFK::ResetSeed();
 	SdkRegisterGameScene(AntiAFKTick, NULL);
@@ -79,12 +74,29 @@ void __cdecl AntiAFKTick(void* UserData) {
 	}
 }
 
+void __cdecl AntiAFKTick(void* UserData) {
+	UNREFERENCED_PARAMETER(UserData);
+
+	if (m_Options.bAntiAFK) {
+		AntiAFK::Execute();
+	}
+}
+
 void __cdecl DrawOverlayScene(_In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
-	// menu 
-	SdkUiCheckbox("Test", &m_Options.bPred, NULL);
-	SdkUiCheckbox("AntiAFK", &m_Options.bAntiAFK, NULL);
+
+
+	bool ObjectExpanded = false;
+	SdkUiBeginTree("Test Helper",&ObjectExpanded);
+	if (ObjectExpanded)
+	{
+		SdkUiCheckbox("Test", &m_Options.bPred, NULL);
+		SdkUiCheckbox("AntiAFK", &m_Options.bAntiAFK, NULL);
+		SdkUiEndTree();
+	}
+
+	
 }
 
 
@@ -92,16 +104,18 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
 
-
 	//
 	// Update entitymanager
 	//
 
 	EntityManager::Update();
+
+
 	if (!m_Options.bPred)
 		return;
 	
-	
+
+
 	/*
 	BUFF EXAMPLE
 	DRAW BUFF NAMES OF TARGET
@@ -127,8 +141,7 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 			auto Pos = hero.GetPosition();
 			Pos.z += (i * 15);
 
-			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);
-
+			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);	
 		}
 	}
 	

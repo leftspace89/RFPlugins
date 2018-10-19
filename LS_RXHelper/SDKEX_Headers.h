@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rVectors.hpp"
+
 //SDKVECTOR_EXTEND MUST BE DEFINED AT PREPROCESSORS
 #include "../SDKRift/sdkapi.h"
 
@@ -40,7 +41,9 @@ TYPE NAME##(){                                        \
     }                                                    \
     return _##NAME;                                     \
 }
-
+#include <map>
+#include <memory>
+#include "LSEventHandler.hpp"
 #include "GameObject.hpp"
 #include "AttackableUnit.hpp"
 #include "AIBaseClient.hpp"
@@ -49,8 +52,6 @@ TYPE NAME##(){                                        \
 #include "AIHeroClient.hpp"
 #include "EntityManager.hpp"
 #include "Game.hpp"
-
-
 #include "lpred.h"
 
 
