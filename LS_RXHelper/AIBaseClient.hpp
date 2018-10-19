@@ -57,23 +57,26 @@ public:
 	}
 	MAKE_GET(CooldownReduction, float, SdkGetAICooldownReduction)
 	MAKE_RAW(isBot, bool, SdkIsAIBot)
-	float GetCurrentGold()
-	{
-		float tmp;
-		SdkGetAIGold(Object, &tmp, NULL);
-		return tmp;
+	float GetCurrentGold() {
+	float Gold = NULL;
+	if (Object == NULL || !SDKSTATUS_SUCCESS(SdkGetAIGold(Object, &Gold, NULL))) {
+			SdkUiConsoleWrite("[SDK] Error! Could not retrieve Experience.\n");
+		}
+		return Gold;
 	}
-	float GetTotalGold()
-	{
-		float tmp;
-		SdkGetAIGold(Object, NULL,&tmp);
-		return tmp;
+	float GetTotalGold() {
+	float Gold = NULL;
+		if (Object == NULL || !SDKSTATUS_SUCCESS(SdkGetAIGold(Object, NULL, &Gold))) {
+			SdkUiConsoleWrite("[SDK] Error! Could not retrieve Level.\n");
+		}
+		return Gold;
 	}
 	MAKE_GET(CombatType, int, SdkGetAICombatType)
 	MAKE_GET(Name, const char*, SdkGetAIName)
 
 	std::vector<SDK_SPELL> GetSpells()
 	{
+		LSFail
 		std::vector<SDK_SPELL> spells;
 		for (uint8_t i = 0; i < SPELL_SLOT_MAX; ++i)
 		{
@@ -90,6 +93,7 @@ public:
 
 	std::vector<BuffInstance> GetBuffs()
 	{
+		LSFail
 		std::vector<BuffInstance> output;
 
 		SdkEnumAIBuffs
@@ -120,5 +124,33 @@ public:
 			);
 
 		return output;
+	}
+	bool HasBuff(const char* input,bool isEqual=true)
+	{
+		auto buffs = GetBuffs();
+		for (size_t i = 0; i < buffs.size(); i++)
+		{
+			auto buff = buffs[i];
+			if (!buff.IsValid())
+				continue;
+			std::string buffname(buff.Name);
+			for (auto& buffnamelower : buffname)
+			{
+				buffnamelower = tolower(buffnamelower);
+			}
+
+			if (isEqual)
+			{
+				if (!strstr(buffname.c_str(), input))
+					return true;
+			}
+			else
+			{
+				if (!strcmp(buffname.c_str(), input) == 0)
+					return true;
+
+			}
+	
+		}
 	}
 };
