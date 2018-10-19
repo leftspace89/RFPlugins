@@ -2,6 +2,8 @@
 class AIMinionClient : public AIBaseClient
 {
 public:
+	AIMinionClient()
+	{};
 	AIMinionClient(void* obj) : AIBaseClient(obj) {
 	};
 	~AIMinionClient()

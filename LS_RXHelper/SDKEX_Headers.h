@@ -1,13 +1,20 @@
 #pragma once
 
 #include "rVectors.hpp"
-#include "../../sdkapi.h"
-#define LSFail if(!Object){SdkUiConsoleWrite("Object issue, %s",__FUNCTION__); MessageBoxA(0,__FUNCTION__,"FUUUUUK",0);}//assert(Object !=NULL);
+//SDKVECTOR_EXTEND MUST BE DEFINED AT PREPROCESSORS
+#include "../SDKRift/sdkapi.h"
+
+#define LSFail if(!Object){SdkUiConsoleWrite("Object issue, %s",__FUNCTION__);}//assert(Object !=NULL);
 
 
 
 extern PSDK_CONTEXT SDK_CONTEXT_GLOBAL;
 extern  void* g_LocalPlayer; // for every gameobject
+
+#define CHECKFAIL(CODE)\
+if (Object == NULL || !SDKSTATUS_SUCCESS(CODE)) { \
+SdkUiConsoleWrite("[SDK] Error! %s\n", __FUNCTION__);\
+}
 
 #define MAKE_GET(NAME,TYPE,FUNCTIONDEF)                    \
 TYPE Get##NAME##(){                                        \
@@ -37,5 +44,4 @@ TYPE NAME##(){                                        \
 #include "AIHeroClient.hpp"
 #include "EntityManager.hpp"
 #include "lpred.h"
-#include "boolinq.h"
 

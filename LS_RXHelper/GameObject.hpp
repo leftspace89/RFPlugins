@@ -1,5 +1,5 @@
 #pragma once
-#define LSFail assert(Object !=NULL);
+
 class GameObject
 {
 public:
@@ -11,84 +11,52 @@ public:
 		Object = NULL;
 	};
 
-	SDKVECTOR GetPosition()
-	{
-		LSFail
-		SDKVECTOR Position;
-		SdkGetObjectPosition(Object, &Position);
-		return Position;
-	}
-	SDKVECTOR GetOrientation()
-	{
-		LSFail
-		SDKVECTOR tmp1;
-		SdkGetObjectOrientation(Object, &tmp1);
-		return tmp1;
-	}
-	SDKBOX GetBBox()
-	{
-		LSFail
-		SDKBOX tmp1;
-		SdkGetObjectBoundingBox(Object, &tmp1);
-		return tmp1;
-	}
-	int GetTeamID()
-	{
-		LSFail
-		int tmpID;
-		SdkGetObjectTeamID(Object, &tmpID);
-		return tmpID;
-	}
-	int GetTypeFlags()
-	{
-		int tmp1;
-		SdkGetObjectTypeFlags(Object, &tmp1);
-		return tmp1;
-	}
-	bool isZombie()
-	{
-		LSFail
-		bool tmp1;
-		SdkIsObjectZombie(Object, &tmp1);
-		return tmp1;
-	}
+	MAKE_GET(Position, SDKVECTOR, SdkGetObjectPosition)
+	MAKE_GET(Orientation, SDKVECTOR, SdkGetObjectOrientation)
+	MAKE_GET(BBox, SDKBOX, SdkGetObjectBoundingBox)
+	MAKE_GET(TeamID, int, SdkGetObjectTeamID)
+	MAKE_GET(TypeFlags, int, SdkGetObjectTypeFlags)
+	MAKE_RAW(isZombie, bool, SdkIsObjectZombie)
+	
 	bool isEnemy()
 	{
 		LSFail
 		int tmpID;
-		SdkGetObjectTeamID(g_LocalPlayer, &tmpID);
+		CHECKFAIL(SdkGetObjectTeamID(g_LocalPlayer, &tmpID));
+
 		return tmpID != GetTeamID();
 	}
 	bool isAlly()
 	{
 		LSFail
 		int tmpID;
-		SdkGetObjectTeamID(g_LocalPlayer, &tmpID);
+		CHECKFAIL(SdkGetObjectTeamID(g_LocalPlayer, &tmpID));
 		return tmpID == GetTeamID();
 	}
 	bool isAlive()
 	{
 		LSFail
 		bool tmpb;
-		SdkIsObjectDead(Object, &tmpb);
+		CHECKFAIL(SdkIsObjectDead(Object, &tmpb));
 		return !tmpb;
 	}
 	std::string GetName()
 	{
 		LSFail
 		const char* Name = NULL;
-		SdkGetObjectName(Object, &Name);
+		CHECKFAIL(SdkGetObjectName(Object, &Name));
 		return std::string(Name);
 	}
 	const char* GetRawName()
 	{
 		LSFail
 		const char* Name = NULL;
-		SdkGetObjectName(Object, &Name);
+		CHECKFAIL(SdkGetObjectName(Object, &Name));
 		return Name;
 	}
 	void* GetObjectPTR()
 	{
+		LSFail
 		return Object;
 	}
 	void*Object; // object ptr

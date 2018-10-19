@@ -10,14 +10,16 @@ public:
 	
 	int GetPosition()
 	{
+		LSFail
 		int tmp1;
-		SdkGetTurretInfo(Object, &tmp1, NULL);
+		CHECKFAIL(SdkGetTurretInfo(Object, &tmp1, NULL));
 		return tmp1;
 	}
 	int GetLane()
 	{
+		LSFail
 		int tmp1;
-		SdkGetTurretInfo(Object, NULL, &tmp1);
+		CHECKFAIL(SdkGetTurretInfo(Object, NULL, &tmp1));
 		return tmp1;
 	}
 

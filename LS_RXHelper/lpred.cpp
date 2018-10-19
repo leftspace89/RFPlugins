@@ -96,24 +96,56 @@ void __cdecl DrawOverlayScene(_In_ void* UserData)
 void __cdecl DrawGameScene( _In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
-	if (!m_Options.bPred)
-		return;
+
 
 	//
 	// Update entitymanager
 	//
 
 	EntityManager::Update();
-
+	if (!m_Options.bPred)
+		return;
 	
-	for (auto object : EntityManager::GetEnemyMinions())
+	
+	/*
+	BUFF EXAMPLE
+	DRAW BUFF NAMES OF TARGET
+	*/
+	
+	auto EnemyHeroes = EntityManager::GetEnemyHeroes();
+	for (size_t i = 0; i < EnemyHeroes.size(); i++)
 	{
-		if (EntityManager::GetLocalPlayer().GetPosition().Distance(object.GetPosition()) > 1000)
+		auto hero = EnemyHeroes[i];
+		if (!hero.isAlive() || !hero.isVisible())
 			continue;
 
+		auto net = hero.GetNeutralKills();
+
+		auto buffs = hero.GetBuffs();
 		
-		SdkDrawLine(&object.GetPosition(), &EntityManager::GetLocalPlayer().GetPosition(), 5, &_g_ColorRed, NULL);
+		for (size_t i = 0; i < buffs.size(); i++)
+		{
+			auto buff = buffs[i];
+			if (!buff.IsValid())
+				continue;
+
+			auto Pos = hero.GetPosition();
+			Pos.z += (i * 15);
+
+			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);
+
+		}
 	}
+	
+
+
+
+	//for (auto object : EntityManager::GetEnemyMinions())
+	//{
+	//	if (EntityManager::GetLocalPlayer().GetPosition().Distance(object.GetPosition()) > 1000)
+	//		continue;
+	//	
+	//}
 
 }
 
