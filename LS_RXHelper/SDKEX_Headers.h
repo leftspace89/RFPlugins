@@ -16,6 +16,11 @@ if (Object == NULL || !SDKSTATUS_SUCCESS(CODE)) { \
 SdkUiConsoleWrite("[SDK] Error! %s\n", __FUNCTION__);\
 }
 
+#define CHECKRAWFAIL(CODE)\
+if (!SDKSTATUS_SUCCESS(CODE)) { \
+SdkUiConsoleWrite("[SDK] Error! %s\n", __FUNCTION__);\
+}
+
 #define MAKE_GET(NAME,TYPE,FUNCTIONDEF)                    \
 TYPE Get##NAME##(){                                        \
     TYPE _##NAME;                                        \
@@ -43,6 +48,9 @@ TYPE NAME##(){                                        \
 #include "AIMinionClient.hpp"
 #include "AIHeroClient.hpp"
 #include "EntityManager.hpp"
+#include "Game.hpp"
+
+
 #include "lpred.h"
 
 
