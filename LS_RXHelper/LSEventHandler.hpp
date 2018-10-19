@@ -69,38 +69,35 @@ public:
 private:
 	typedef  std::map<int, EHandlerBase<ReturnT, ParamT...> *> HandlersMap;
 	HandlersMap events;
-	int m_count;
+	int m_count=0;
 };
 
-// EXAMPLE USAGE
 /*
-void testeventccc2()
-{
-printf("called2\n");
-}
-void testeventccc()
-{
-printf("called\n");
-}
-void testeventccc3()
-{
-printf("called3\n");
-}
-EEvent<void>testevent;
 
-int main(void)
+EEvent<void, int, int>testevent_args;
+EEvent<void>testevent_noargs;
+void OnTestEventArgs(int arg1, int arg2)
 {
-bindEEvent(testevent, testeventccc);
-int id2 =bindEEvent(testevent, testeventccc2);
-bindEEvent(testevent, testeventccc3);
-while (true)
+printf("Args : %d,%d\n", arg1, arg2);
+}
+void OnTestEvent_NO_Args()
 {
+printf("NO args\n");
+}
+
+// conformance option should be disabled
+int eventexample(void)
+{
+bindEEvent(testevent_args, OnTestEventArgs, 1, 2);
+int eventid2 = bindEEvent(testevent_noargs, OnTestEvent_NO_Args);
+
+
+notifyEEvent(testevent_args, 1, 2); // with infinite args
+notifyEEvent(testevent_noargs); // no args
+
 if (GetAsyncKeyState(VK_SPACE))
-{
-testevent.unbind(id2); // REMOVES EVENT
+unbindEEvent(testevent_noargs, eventid2);
+return 0;
 }
-testevent.notify(); // NOTIFY CALLBACKS
-Sleep(1000);
-}
-}
+
 */
