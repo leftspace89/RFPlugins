@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-<<<<<<< HEAD
     <ClCompile Include="lpred.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,7 +62,6 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{9251c206-b2d3-47f2-919d-177eaa36a72e}</UniqueIdentifier>
     </Filter>
-=======
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="lpred.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -82,6 +80,5 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="AntiAFK.h" />
     <ClInclude Include="Game.hpp" />
->>>>>>> 0b7dca0966fd24683d217052b32376e6b80b54f9
   </ItemGroup>
 </Project>

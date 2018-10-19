@@ -15,13 +15,10 @@ SDKCOLOR _g_ColorPurple = { 128, 0, 128, 255 };
 
  struct lpredOptions
 {
-
-	 bool showwindow;
 	 bool bPred;
 	 bool bAntiAFK;
-
 }m_Options;
-
+ 
 
 
 BOOL 
@@ -34,38 +31,20 @@ DllMain(
 
 {
 	UNREFERENCED_PARAMETER(hinstDLL);
-
-	//
-	// We're only interested when the DLL attaches to the process.
-	//
+	
 	if (fdwReason != DLL_PROCESS_ATTACH)
 		return TRUE;
 
-	//
-	// This macro extracts the pointer to the SDK context from the lpvReserved
-	// parameter.
-	//
 	SDK_EXTRACT_CONTEXT(lpvReserved);
 	if (!SDK_CONTEXT_GLOBAL)
 		return FALSE;
 
-	//
-	// Every module loaded by Rift should have a call to SdkNotifyLoadedModule
-	// as soon as possible to ensure that other SDK API can be called.
-	//
-	if (!SDKSTATUS_SUCCESS(SdkNotifyLoadedModule("lpred", SDK_VERSION)))
-	{
-		//
-		// This routine will fail if a module of the same name is already
-		// loaded or if there's a mismatch with the target SDK version.
-		//
+	if (!SDKSTATUS_SUCCESS(SdkNotifyLoadedModule("lpred", SDK_VERSION))) {
 		return FALSE;
 	}
-	//
-	// initialize entitymanager
-	//
-	EntityManager::Initialize();
 
+
+	EntityManager::Initialize();
 	//
 	// When the overlay is being drawn (e.g. hack menu is up), invoke
 	// our function.
@@ -80,14 +59,20 @@ DllMain(
 	SdkRegisterGameScene(DrawGameScene, NULL);
 	SdkRegisterGameScene(AntiAFKTick, NULL);
 
-	//
-	// The base 'game frame' sits below our extra visuals (the 'game
-	// scene'). The 'overlay scene' sits atop both of these, but is
-	// only visible when the end user presses the required hotkey.
-	//
+	AntiAFK::ResetSeed();
+	SdkRegisterGameScene(AntiAFKTick, NULL);
+
+
 	return TRUE;
 }
 
+void __cdecl AntiAFKTick(void* UserData) {
+	UNREFERENCED_PARAMETER(UserData);		
+	
+	if (m_Options.bAntiAFK) {
+		AntiAFK::Execute();
+	}
+}
 
 void __cdecl AntiAFKTick(void* UserData) {
 	UNREFERENCED_PARAMETER(UserData);
@@ -101,6 +86,7 @@ void __cdecl DrawOverlayScene(_In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
 
+
 	bool ObjectExpanded = false;
 	SdkUiBeginTree("Test Helper",&ObjectExpanded);
 	if (ObjectExpanded)
@@ -112,6 +98,7 @@ void __cdecl DrawOverlayScene(_In_ void* UserData)
 
 	
 }
+
 
 void __cdecl DrawGameScene( _In_ void* UserData)
 {
@@ -158,6 +145,30 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 		}
 	}
 	
+	auto AllyHeroes = EntityManager::GetAllyHeroes();
+	for (size_t i = 0; i < AllyHeroes.size(); i++)
+	{
+		auto hero = AllyHeroes[i];
+		if (!hero.isAlive() || !hero.isVisible())
+			continue;
+
+		auto net = hero.GetNeutralKills();
+
+		auto buffs = hero.GetBuffs();
+
+		for (size_t i = 0; i < buffs.size(); i++)
+		{
+			auto buff = buffs[i];
+			if (!buff.IsValid())
+				continue;
+
+			auto Pos = hero.GetPosition();
+			Pos.z += (i * 15);
+
+			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);
+
+		}
+	}
 
 
 
