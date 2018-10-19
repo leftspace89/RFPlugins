@@ -57,7 +57,7 @@ DllMain(
 	// to render.
 	//
 	SdkRegisterGameScene(DrawGameScene, NULL);
-
+	AntiAFK::ResetSeed();
 
 
 	return TRUE;
@@ -95,8 +95,6 @@ void __cdecl DrawOverlayScene(_In_ void* UserData)
 void __cdecl DrawGameScene( _In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
-
-
 	//
 	// Update entitymanager
 	//
