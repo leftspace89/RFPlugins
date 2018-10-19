@@ -32,6 +32,7 @@ public:
 	static std::vector<AIMinionClient> GetJungleMonsters();
 
 	static AIHeroClient GetLocalPlayer();
+	static bool initialized;
 private:
 	static std::vector<AIMinionClient>m_AllyMinions;
 	static std::vector<AIMinionClient>m_EnemyMinions;
@@ -45,7 +46,7 @@ private:
 	static std::vector<AIMinionClient>m_JungleMonsters;
 
 	static AIHeroClient LocalPlayer;
-
+	
 };
 
 
