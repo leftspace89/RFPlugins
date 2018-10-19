@@ -74,13 +74,7 @@ void __cdecl AntiAFKTick(void* UserData) {
 	}
 }
 
-void __cdecl AntiAFKTick(void* UserData) {
-	UNREFERENCED_PARAMETER(UserData);
 
-	if (m_Options.bAntiAFK) {
-		AntiAFK::Execute();
-	}
-}
 
 void __cdecl DrawOverlayScene(_In_ void* UserData)
 {
