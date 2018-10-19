@@ -101,18 +101,26 @@ public:
 			// This callback is invoked for every buff
 			// attached to this AI object.
 			//
-
+			if (!UserData)
+			{
+				SdkUiConsoleWrite("[SDK] ENUMAIBuffs ERROR");
+				return false;
+			}
 			std::vector<BuffInstance>* Buffs = (std::vector<BuffInstance>*)UserData;
 
-			BuffInstance Buff;
-			Buff.Type = Type;
-			Buff.StartTime = StartTime;
-			Buff.EndTime = EndTime;
-			Buff.Count = Counter;
+			if (Buffs)
+			{
+				BuffInstance Buff;
+				Buff.Type = Type;
+				Buff.StartTime = StartTime;
+				Buff.EndTime = EndTime;
+				Buff.Count = Counter;
 
-			SdkBuffToString(Buff.Type, &Buff.Name);
+				SdkBuffToString(Buff.Type, &Buff.Name);
 
-			Buffs->push_back(Buff);
+				Buffs->push_back(Buff);
+			}
+			
 
 			return true;
 		},
