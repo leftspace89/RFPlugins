@@ -15,3 +15,9 @@ __cdecl
 DrawGameScene(
 	_In_ void* UserData
 );
+
+void
+__cdecl
+AntiAFKTick(
+	_In_ void* UserData
+);

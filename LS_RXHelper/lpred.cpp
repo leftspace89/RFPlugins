@@ -31,6 +31,7 @@ SDKCOLOR _g_ColorPurple = { 128, 0, 128, 255 };
 	 printf("NO args\n");
  }
 
+ // conformance option should be disabled
  int eventexample(void)
  {
 	 bindEEvent(testevent_args, OnTestEventArgs, 1, 2);
@@ -87,8 +88,6 @@ DllMain(
 	// initialize entitymanager
 	//
 	EntityManager::Initialize();
-	eventexample();
-
 
 	//
 	// When the overlay is being drawn (e.g. hack menu is up), invoke
@@ -145,7 +144,6 @@ double CalcWindup()
 	auto delay = stGet(EntityManager::GetLocalPlayer().GetObjectPTR(), 1);
 	float pDelay = delay * 2 ;
 	SdkUiConsoleWrite("pDelay : %f delay : %f from rift attackspeed : %f", pDelay, delay, EntityManager::GetLocalPlayer().GetAttackSpeed());
-
 	return pDelay;
 }
 
@@ -154,7 +152,6 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
 
-
 	//
 	// Update entitymanager
 	//
@@ -162,7 +159,6 @@ void __cdecl DrawGameScene( _In_ void* UserData)
     // 
 	// event examples
 	// 
-
 
 	EntityManager::Update();
 	if (!m_Options.bPred)
@@ -176,11 +172,6 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 	}
 	
 
-	//"League of Legends.exe"+64C5C0
-	//"League of Legends.exe"+64C440
-	//"League of Legends.exe"+62CFE0
-	//"League of Legends.exe"+2C3C60
-	//"League of Legends.exe"+646120
 	/*
 	BUFF EXAMPLE
 	DRAW BUFF NAMES OF TARGET
