@@ -52,23 +52,19 @@ public:
 	float GetAbilityResourceRegens(unsigned char index)
 	{
 		float tmp;
-		SdkGetAIAbilityResourceRegen(Object,index,&tmp);
+		CHECKFAIL(SdkGetAIAbilityResourceRegen(Object, index, &tmp));
 		return tmp;
 	}
 	MAKE_GET(CooldownReduction, float, SdkGetAICooldownReduction)
 	MAKE_RAW(isBot, bool, SdkIsAIBot)
 	float GetCurrentGold() {
 	float Gold = NULL;
-	if (Object == NULL || !SDKSTATUS_SUCCESS(SdkGetAIGold(Object, &Gold, NULL))) {
-			SdkUiConsoleWrite("[SDK] Error! Could not retrieve Experience.\n");
-		}
+		CHECKFAIL(SdkGetAIGold(Object, &Gold, NULL));
 		return Gold;
 	}
 	float GetTotalGold() {
-	float Gold = NULL;
-		if (Object == NULL || !SDKSTATUS_SUCCESS(SdkGetAIGold(Object, NULL, &Gold))) {
-			SdkUiConsoleWrite("[SDK] Error! Could not retrieve Level.\n");
-		}
+	   float Gold = NULL;
+		CHECKFAIL(SdkGetAIGold(Object, NULL, &Gold));
 		return Gold;
 	}
 	MAKE_GET(CombatType, int, SdkGetAICombatType)

@@ -11,41 +11,19 @@ public:
 	{
 	};
 
-	bool isVisible()
-	{
-		LSFail
-			bool tmp1;
-		SdkIsUnitVisible(Object, &tmp1);
-		return tmp1;
-	}
-	bool isMouseOver()
-	{
-		bool tmp1;
-		SdkGetUnitIsMouseOver(Object, &tmp1);
-		return tmp1;
-	}
-	float GetDeathTime()
-	{
-		LSFail
-		float tmp1;
-		SdkGetUnitDeathTime(Object, &tmp1);
-		return tmp1;
-	}
-	SDK_HEALTH GetHealth()
-	{
-		LSFail
-		SDK_HEALTH tmp1;
-		SdkGetUnitHealth(Object, &tmp1);
-		return tmp1;
-	}
-	SDK_ABILITY_RESOURCE GetAbilitySlots(int index)
-	{
-		LSFail
-		SDK_ABILITY_RESOURCE tmp1;
-		SdkGetUnitAbilityResource(Object, index, &tmp1);
-		return tmp1;
-	}
+	MAKE_RAW(isVisible, bool, SdkIsUnitVisible)
+	MAKE_RAW(isMouseOver,bool, SdkGetUnitIsMouseOver)
+	MAKE_GET(DeathTime,float, SdkGetUnitDeathTime)
+	MAKE_GET(GetHealth, SDK_HEALTH, SdkGetUnitHealth)
 
+
+	SDK_ABILITY_RESOURCE GetAbilitySlots(unsigned char index)
+	{
+		SDK_ABILITY_RESOURCE tmp1;
+		CHECKFAIL(SdkGetUnitAbilityResource(Object, index, &tmp1));
+		return tmp1;
+	}
+	 
 	struct BuffInstance
 	{
 		const char* Name;

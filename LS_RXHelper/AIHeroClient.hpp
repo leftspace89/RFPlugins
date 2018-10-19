@@ -14,20 +14,19 @@ public:
 	};
 	
 
-	int GetLevel()
-	{
-		LSFail
-		int tmp1;
-		SdkGetHeroExperience(Object,NULL, &tmp1);
-		return tmp1;
+
+	int GetLevel() {
+		int Level = NULL;
+		CHECKFAIL(SdkGetHeroExperience(Object, NULL, &Level));
+		return Level;
 	}
-	float GetExperience()
-	{
-		LSFail
-		float tmp1;
-		SdkGetHeroExperience(Object, &tmp1, NULL);
-		return tmp1;
+	float GetExperience() {
+		float Exp = NULL;
+		CHECKFAIL(SdkGetHeroExperience(Object, &Exp, NULL));
+		return Exp;
 	}
+
+	
 	MAKE_GET(NeutralKills, int,SdkGetHeroNeutralKills)
 
 private:
