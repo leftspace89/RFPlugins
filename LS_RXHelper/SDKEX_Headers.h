@@ -37,5 +37,5 @@ TYPE NAME##(){                                        \
 #include "AIHeroClient.hpp"
 #include "EntityManager.hpp"
 #include "lpred.h"
-#include "boolinq.h"
+
 
