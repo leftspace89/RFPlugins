@@ -20,3 +20,8 @@ LS_RXHelper/Release/lpred\.tlog/unsuccessfulbuild
 LS_RXHelper/Release/vc141\.pdb
 
 LS_RXHelper/lpred\.sln
+*.ipdb
+*.iobj
+*.ipch
+*.opendb
+*.rar

@@ -15,9 +15,35 @@ SDKCOLOR _g_ColorPurple = { 128, 0, 128, 255 };
  struct lpredOptions
 {
 
+	 bool showwindow;
 	 bool bPred;
 
 }m_Options;
+
+ EEvent<void, int, int>testevent_args;
+ EEvent<void>testevent_noargs;
+ void OnTestEventArgs(int arg1, int arg2)
+ {
+	 printf("Args : %d,%d\n", arg1, arg2);
+ }
+ void OnTestEvent_NO_Args()
+ {
+	 printf("NO args\n");
+ }
+
+ int eventexample(void)
+ {
+	 bindEEvent(testevent_args, OnTestEventArgs, 1, 2);
+	 int eventid2 = bindEEvent(testevent_noargs, OnTestEvent_NO_Args);
+
+
+	 notifyEEvent(testevent_args, 1, 2); // with infinite args
+	 notifyEEvent(testevent_noargs); // no args
+
+	 if (GetAsyncKeyState(VK_SPACE))
+		 unbindEEvent(testevent_noargs, eventid2);
+	 return 0;
+ }
 
 
 BOOL 
@@ -61,6 +87,7 @@ DllMain(
 	// initialize entitymanager
 	//
 	EntityManager::Initialize();
+	eventexample();
 
 
 	//
@@ -88,10 +115,40 @@ DllMain(
 void __cdecl DrawOverlayScene(_In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
-	// menu 
-	SdkUiCheckbox("Test", &m_Options.bPred, NULL);
 
+	bool ObjectExpanded = false;
+	SdkUiBeginTree("Test Helper",&ObjectExpanded);
+	if (ObjectExpanded)
+	{
+		SdkUiCheckbox("Test", &m_Options.bPred, NULL);
+		SdkUiEndTree();
+	}
+
+	
 }
+
+
+double CalcAttackTime()
+{
+	typedef float(__cdecl* fnGetAttackDelay)(void* pObj, int index);
+	fnGetAttackDelay stGet = reinterpret_cast<fnGetAttackDelay>((DWORD)(GetModuleHandleA(0)) + 0x64C5C0); // 1.  57 8B 7C 24 08 8B 87 ? ? ? ? 8D 8F ? ? ? ?
+	float delay = stGet(EntityManager::GetLocalPlayer().GetObjectPTR(), 64); 
+	float ChampionAttackSpeed = 1.0f / delay; // Like 2.50 
+	float Div = EntityManager::GetLocalPlayer().GetAttackSpeed(); // like 4.12
+	float BaseMult = ChampionAttackSpeed / Div; //Like 0.600 
+	return BaseMult;
+}
+double CalcWindup()
+{
+	typedef float(__cdecl* fnGetAttackDelay)(void* pObj, int index);
+	fnGetAttackDelay stGet = reinterpret_cast<fnGetAttackDelay>((DWORD)(GetModuleHandleA(0)) + 0x64C440); // 83 ec ? 53 8b 5c ? ? 8b cb 56 ---- 2.  57 8B 7C 24 08 8B 87 ? ? ? ? 8D 8F ? ? ? ?
+	auto delay = stGet(EntityManager::GetLocalPlayer().GetObjectPTR(), 1);
+	float pDelay = delay * 2 ;
+	SdkUiConsoleWrite("pDelay : %f delay : %f from rift attackspeed : %f", pDelay, delay, EntityManager::GetLocalPlayer().GetAttackSpeed());
+
+	return pDelay;
+}
+
 
 void __cdecl DrawGameScene( _In_ void* UserData)
 {
@@ -102,11 +159,28 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 	// Update entitymanager
 	//
 
+    // 
+	// event examples
+	// 
+
+
 	EntityManager::Update();
 	if (!m_Options.bPred)
 		return;
 	
+	if (GetAsyncKeyState(VK_SPACE))
+	{
+		auto windup = CalcWindup();
+		auto attdelay = CalcAttackTime();
+		//SdkUiConsoleWrite("windup : %f attack delay : %f", windup,attdelay);
+	}
 	
+
+	//"League of Legends.exe"+64C5C0
+	//"League of Legends.exe"+64C440
+	//"League of Legends.exe"+62CFE0
+	//"League of Legends.exe"+2C3C60
+	//"League of Legends.exe"+646120
 	/*
 	BUFF EXAMPLE
 	DRAW BUFF NAMES OF TARGET
@@ -134,6 +208,7 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 
 			SdkDrawText(&Pos, NULL, buff.Name, "Arial", &_g_ColorWhite, 18, 5, 0, false);
 
+			
 		}
 	}
 	
