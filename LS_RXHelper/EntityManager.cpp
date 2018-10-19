@@ -13,7 +13,7 @@ std::vector<AIHeroClient> EntityManager::m_EnemyHeroes;
 std::vector<AIHeroClient> EntityManager::m_AllyHeroes;
 
 std::vector<AIMinionClient> EntityManager::m_JungleMonsters;
-
+bool EntityManager::initialized;
 //
 // CALLED EVERY FRAME
 //
@@ -121,6 +121,7 @@ void EntityManager::Clear()
 }
  void EntityManager::Update()
 {
+	initialized = true;
 	static auto tick = GetTickCount();
 	if (GetTickCount() - tick > 100)
 	{

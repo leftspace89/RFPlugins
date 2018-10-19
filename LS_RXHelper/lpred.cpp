@@ -57,10 +57,7 @@ DllMain(
 	// to render.
 	//
 	SdkRegisterGameScene(DrawGameScene, NULL);
-	SdkRegisterGameScene(AntiAFKTick, NULL);
 
-	AntiAFK::ResetSeed();
-	SdkRegisterGameScene(AntiAFKTick, NULL);
 
 
 	return TRUE;
@@ -68,7 +65,8 @@ DllMain(
 
 void __cdecl AntiAFKTick(void* UserData) {
 	UNREFERENCED_PARAMETER(UserData);		
-	
+	if (!EntityManager::initialized)
+		return;
 	if (m_Options.bAntiAFK) {
 		AntiAFK::Execute();
 	}
@@ -98,12 +96,13 @@ void __cdecl DrawGameScene( _In_ void* UserData)
 {
 	UNREFERENCED_PARAMETER(UserData);
 
+
 	//
 	// Update entitymanager
 	//
 
 	EntityManager::Update();
-
+	AntiAFKTick(UserData);
 
 	if (!m_Options.bPred)
 		return;
