@@ -161,8 +161,10 @@
     <ClInclude Include="AIHeroClient.hpp" />
     <ClInclude Include="AIMinionClient.hpp" />
     <ClInclude Include="AITurretClient.hpp" />
+    <ClInclude Include="AntiAFK.h" />
     <ClInclude Include="AttackableUnit.hpp" />
     <ClInclude Include="EntityManager.hpp" />
+    <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="lpred.h" />
     <ClInclude Include="rVectors.hpp" />

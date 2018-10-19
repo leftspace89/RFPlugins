@@ -20,3 +20,10 @@ LS_RXHelper/Release/lpred\.tlog/unsuccessfulbuild
 LS_RXHelper/Release/vc141\.pdb
 
 LS_RXHelper/lpred\.sln
+
+LS_RXHelper/bin/Release/
+
+LS_RXHelper/Release/
+
+LS_RXHelper/\.vs/lpred/v15/ipch/AutoPCH/b8291e284cb32c85/EVENTMANAGER\.ipch
+

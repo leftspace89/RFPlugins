@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="lpred.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIBaseClient.hpp" />
+    <ClInclude Include="AIHeroClient.hpp" />
+    <ClInclude Include="AIMinionClient.hpp" />
+    <ClInclude Include="AITurretClient.hpp" />
+    <ClInclude Include="AttackableUnit.hpp" />
+    <ClInclude Include="EntityManager.hpp" />
+    <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="lpred.h" />
+    <ClInclude Include="rVectors.hpp" />
+    <ClInclude Include="SDKEX_Headers.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="AntiAFK.h" />
+    <ClInclude Include="Game.hpp" />
+  </ItemGroup>
+</Project>
